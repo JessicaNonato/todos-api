@@ -1,3 +1,4 @@
+
 const { Router } = require("express");
 const mongoose = require('mongoose')
 
@@ -5,10 +6,12 @@ const Todo = require("../models/Todo");
 const User = require("../models/User")
 
 const router = Router();
+
 router.get("/", async (req, res) => {
+  
   try {
-    
-    const todoList = await Todo.find().populate("user", "name");
+  const userId = req.user.id
+    const todoList = await Todo.find({user:userId}).populate("user", "name");
     
     res.status(200).json(todoList);
   } catch (error) {
